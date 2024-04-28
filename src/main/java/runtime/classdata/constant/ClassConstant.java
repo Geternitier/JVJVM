@@ -1,5 +1,6 @@
 package runtime.classdata.constant;
 
+import classdefs.FieldDescriptor;
 import lombok.SneakyThrows;
 import runtime.JClass;
 
@@ -26,7 +27,7 @@ public class ClassConstant implements Constant{
     public JClass getValue() {
         if(value == null){
             if(getName().equals(jClass.getThisClass().getName())) value = jClass;
-            // TODO: USE ClassLoader to Load The Class
+            else value = jClass.getClassLoader().loadClass(FieldDescriptor.of(getName()));
         }
         return value;
     }

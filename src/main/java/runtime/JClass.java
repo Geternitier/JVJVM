@@ -1,5 +1,6 @@
 package runtime;
 
+import classloader.JClassLoader;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import runtime.classdata.attribute.Attribute;
@@ -31,9 +32,12 @@ public class JClass {
     private final Field[] fields;
     private final Method[] methods;
     private final Attribute[] attributes;
+    @Getter
+    private final JClassLoader classLoader;
 
     @SneakyThrows
-    public JClass(DataInput dataInput){
+    public JClass(DataInput dataInput, JClassLoader jClassLoader){
+        classLoader = jClassLoader;
         int magic = dataInput.readInt();
         assert magic == 0xcafebabe;
 
@@ -149,7 +153,7 @@ public class JClass {
         File file = new File(path);
         FileInputStream stream = new FileInputStream(file);
         DataInput dataInput = new DataInputStream(stream);
-        JClass jClass = new JClass(dataInput);
+        JClass jClass = new JClass(dataInput, null);
         System.out.println("Hello World!");
     }
 }
