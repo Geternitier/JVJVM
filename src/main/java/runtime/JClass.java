@@ -46,7 +46,7 @@ public class JClass {
         thisClass = (ClassConstant) constantPool.getConstant(dataInput.readUnsignedShort());
         int superIndex = dataInput.readUnsignedShort();
         if(superIndex == 0) superClass = null;
-        else superClass = (ClassConstant) constantPool.getConstant(dataInput.readUnsignedShort());
+        else superClass = (ClassConstant) constantPool.getConstant(superIndex);
 
         int interfaceCount = dataInput.readUnsignedShort();
         interfaces = new ClassConstant[interfaceCount];

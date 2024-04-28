@@ -21,8 +21,8 @@ public class Code extends Attribute{
         maxStack = dataInput.readUnsignedShort();
         maxLocals = dataInput.readUnsignedShort();
 
-        int codeLength = dataInput.readInt();
-        code = new byte[codeLength];
+        long codeLength = Integer.toUnsignedLong(dataInput.readInt());
+        code = new byte[(int)codeLength];
         dataInput.readFully(code);
 
         int exceptionTableLength = dataInput.readUnsignedShort();
