@@ -9,6 +9,9 @@ import runtime.classdata.constant.ClassConstant;
 import runtime.classdata.Method;
 
 import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 
 import static classdefs.ClassAccessFlags.*;
 
@@ -140,4 +143,13 @@ public class JClass {
         return (accessFlags & ACC_MODULE) != 0;
     }
 
+    @SneakyThrows
+    public static void main(String[] args){
+        String path = "output/Hello.class";
+        File file = new File(path);
+        FileInputStream stream = new FileInputStream(file);
+        DataInput dataInput = new DataInputStream(stream);
+        JClass jClass = new JClass(dataInput);
+        System.out.println("Hello World!");
+    }
 }

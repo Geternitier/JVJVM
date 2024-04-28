@@ -18,7 +18,6 @@ public class RefConstant implements Constant{
         this.jClass = jClass;
         classIndex = dataInput.readUnsignedShort();
         nameAndTypeIndex = dataInput.readUnsignedShort();
-        classConstant = (ClassConstant) jClass.getConstantPool().getConstant(classIndex);
     }
 
     public ClassConstant getClassConstant(){

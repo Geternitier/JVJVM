@@ -24,8 +24,10 @@ public class Method {
     public Method(DataInput dataInput, JClass jClass){
         this.jClass = jClass;
         accessFlags = dataInput.readUnsignedShort();
-        name = ((UTF8Constant) jClass.getConstantPool().getConstant(dataInput.readUnsignedShort())).getValue();
-        descriptor = ((UTF8Constant) jClass.getConstantPool().getConstant(dataInput.readUnsignedShort())).getValue();
+        int nameIndex = dataInput.readUnsignedShort();
+        int descriptorIndex = dataInput.readUnsignedShort();
+        name = ((UTF8Constant) jClass.getConstantPool().getConstant(nameIndex)).getValue();
+        descriptor = ((UTF8Constant) jClass.getConstantPool().getConstant(descriptorIndex)).getValue();
         int attributeCount = dataInput.readUnsignedShort();
         attributes = new Attribute[attributeCount];
         for(int i = 0;i < attributeCount;i++){
