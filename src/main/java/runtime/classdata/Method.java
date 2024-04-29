@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import runtime.JClass;
 import runtime.classdata.attribute.Attribute;
+import runtime.classdata.attribute.Code;
 import runtime.classdata.constant.UTF8Constant;
 
 import java.io.DataInput;
@@ -19,6 +20,8 @@ public class Method {
     @Getter
     private final String descriptor;
     private final Attribute[] attributes;
+    @Getter
+    private Code code;
 
     @SneakyThrows
     public Method(DataInput dataInput, JClass jClass){
@@ -28,10 +31,18 @@ public class Method {
         int descriptorIndex = dataInput.readUnsignedShort();
         name = ((UTF8Constant) jClass.getConstantPool().getConstant(nameIndex)).getValue();
         descriptor = ((UTF8Constant) jClass.getConstantPool().getConstant(descriptorIndex)).getValue();
+
         int attributeCount = dataInput.readUnsignedShort();
         attributes = new Attribute[attributeCount];
         for(int i = 0;i < attributeCount;i++){
             attributes[i] = Attribute.constructFromData(dataInput, jClass.getConstantPool());
+        }
+
+        for(Attribute i: attributes){
+            if(i instanceof Code){
+                code = (Code) i;
+                break;
+            }
         }
     }
 

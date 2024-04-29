@@ -1,15 +1,21 @@
+package machine;
+
 import classloader.JClassLoader;
 import classloader.searchpath.ClassSearchPath;
 import classloader.searchpath.ModuleSearchPath;
 import lombok.Getter;
+import runtime.JThread;
 
-public class VirtualMachine {
+import java.util.ArrayList;
+
+public class JVirtualMachine {
     @Getter
     private final JClassLoader bootstrapLoader;
     @Getter
     private final JClassLoader userLoader;
+    private final ArrayList<JThread> threads = new ArrayList<>();
 
-    public VirtualMachine(String userClassPath){
+    public JVirtualMachine(String userClassPath){
         bootstrapLoader = new JClassLoader(null, getSystemSearchPaths());
         userLoader = new JClassLoader(bootstrapLoader, ClassSearchPath.constructSearchPaths(userClassPath));
     }
