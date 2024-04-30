@@ -1,5 +1,8 @@
 package interpreter.instruction;
 
+import interpreter.instruction.constants.*;
+import interpreter.instruction.control.IRETURN;
+import interpreter.instruction.control.RETURN;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
@@ -23,11 +26,11 @@ public class Decoder {
 
     static final BiFunction<ProgramCounter, Method, Instruction>[] decodeTable = of(
             // @formatter:off
-            /* 0x00 */  null, null, null, null,
-            /* 0x04 */  null, null, null, null,
+            /* 0x00 */  null, null, ICONST_M1::iconst_m1, ICONST_0::iconst_0,
+            /* 0x04 */  ICONST_1::iconst_1, null, null, null,
             /* 0x08 */  null, null, null, null,
             /* 0x0c */  null, null, null, null,
-            /* 0x10 */  null, null, null, null,
+            /* 0x10 */  BIPUSH::bipush, SIPUSH::sipush, null, null,
             /* 0x14 */  null, null, null, null,
             /* 0x18 */  null, null, null, null,
             /* 0x1c */  null, null, null, null,
@@ -66,8 +69,8 @@ public class Decoder {
             /* 0xa0 */  null, null, null, null,
             /* 0xa4 */  null, null, null, null,
             /* 0xa8 */  null, null, null, null,
-            /* 0xac */  null, null, null, null,
-            /* 0xb0 */  null, null, null, null,
+            /* 0xac */  IRETURN::ireturn, null, null, null,
+            /* 0xb0 */  null, RETURN::return_, null, null,
             /* 0xb4 */  null, null, null, null,
             /* 0xb8 */  null, null, null, null,
             /* 0xbc */  null, null, null, null,

@@ -111,6 +111,15 @@ public class JClass {
         return attributes[index];
     }
 
+    public Method getMethod(String name, String descriptor){
+        for(Method method: methods){
+            if(method.getName().equals(name) && method.getDescriptor().equals(descriptor)){
+                return method;
+            }
+        }
+        return null;
+    }
+
     public boolean public_() {
         return (accessFlags & ACC_PUBLIC) != 0;
     }
