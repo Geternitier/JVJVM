@@ -29,4 +29,9 @@ public class JVirtualMachine {
         return new ClassSearchPath[] {new ModuleSearchPath()};
     }
 
+    public static void main(String[] args){
+        JVirtualMachine machine = new JVirtualMachine("output/");
+        machine.userLoader.loadClass("LHello;");
+        System.out.println("HelloWorld!");
+    }
 }
