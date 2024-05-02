@@ -41,7 +41,7 @@ public class OperandStack {
     }
 
     public void pushDouble(double value) {
-        variables.double_(top++,value);
+        variables.setDouble(top++,value);
         top += 2;
     }
 
