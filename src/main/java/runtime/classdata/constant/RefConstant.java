@@ -32,4 +32,12 @@ public class RefConstant implements Constant{
             nameAndTypeConstant = (NameAndTypeConstant) jClass.getConstantPool().getConstant(nameAndTypeIndex);
         return nameAndTypeConstant;
     }
+
+    public String getName(){
+        return getNameAndTypeConstant().getName();
+    }
+
+    public String getType(){
+        return getNameAndTypeConstant().getType();
+    }
 }

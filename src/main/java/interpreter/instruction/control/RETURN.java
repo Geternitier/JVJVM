@@ -7,9 +7,7 @@ import runtime.classdata.Method;
 
 public class RETURN implements Instruction {
 
-    public static RETURN return_(ProgramCounter pc, Method method){
-        return new RETURN();
-    }
+    public RETURN(ProgramCounter pc, Method method){}
 
     @Override
     public void run(JThread thread) {

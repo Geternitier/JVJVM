@@ -5,19 +5,15 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-public class ICONST_0 implements Instruction {
+public class LDC2_W implements Instruction {
+    private final int index;
 
-    public ICONST_0(ProgramCounter pc, Method method){
-
+    public LDC2_W(ProgramCounter programCounter, Method method) {
+        index = programCounter.ushort();
     }
 
     @Override
     public void run(JThread thread) {
-        thread.top().getOperandStack().pushInt(0);
-    }
-
-    @Override
-    public String toString(){
-        return "iconst_0";
+        // TODO
     }
 }

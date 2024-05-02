@@ -6,11 +6,9 @@ import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
 public class ICONST_2 implements Instruction {
+    public ICONST_2(ProgramCounter pc, Method method){
 
-    public static ICONST_2 iconst_2(ProgramCounter pc, Method method){
-        return new ICONST_2();
     }
-
     @Override
     public void run(JThread thread) {
         thread.top().getOperandStack().pushInt(2);

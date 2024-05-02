@@ -7,12 +7,11 @@ import runtime.OperandStack;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-@AllArgsConstructor
 public class SIPUSH implements Instruction {
     private final int value;
 
-    public static SIPUSH sipush(ProgramCounter pc, Method method){
-        return new SIPUSH(pc.short_());
+    public SIPUSH(ProgramCounter pc, Method method){
+        value = pc.short_();
     }
 
     @Override

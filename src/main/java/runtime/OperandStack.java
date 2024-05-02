@@ -15,29 +15,29 @@ public class OperandStack {
     }
 
     public void pushInt(int value) {
-        variables.int_(top++, value);
+        variables.setInt(top++, value);
     }
 
     public int popInt() {
-        return variables.int_(--top);
+        return variables.getInt(--top);
     }
 
     public void pushFloat(float value) {
-        variables.float_(top++,value);
+        variables.setFloat(top++,value);
     }
 
     public float popFloat() {
-        return variables.float_(--top);
+        return variables.getFloat(--top);
     }
 
     public void pushLong(long value) {
-        variables.long_(top,value);
+        variables.setLong(top,value);
         top += 2;
     }
 
     public long popLong() {
         top -= 2;
-        return variables.long_(top);
+        return variables.getLong(top);
     }
 
     public void pushDouble(double value) {
@@ -47,39 +47,39 @@ public class OperandStack {
 
     public double popDouble() {
         top -= 2;
-        return variables.double_(top);
+        return variables.getDouble(top);
     }
 
     public void pushByte(byte value) {
-        variables.byte_(top++,value);
+        variables.setByte(top++,value);
     }
 
     public byte popByte() {
-        return variables.byte_(--top);
+        return variables.getByte(--top);
     }
 
     public void pushChar(char value) {
-        variables.char_(top++,value);
+        variables.setChar(top++,value);
     }
 
     public char popChar() {
-        return variables.char_(--top);
+        return variables.getChar(--top);
     }
 
     public void pushShort(short value) {
-        variables.short_(top++,value);
+        variables.setShort(top++,value);
     }
 
     public short popShort() {
-        return variables.short_(--top);
+        return variables.getShort(--top);
     }
 
-    public void pushSlots(LocalVariables slots) {
-        slots.copyTo(0,slots.size(),this.variables,top);
-        top += slots.size();
+    public void pushVariables(LocalVariables variables) {
+        variables.copyTo(0,variables.size(),this.variables,top);
+        top += variables.size();
     }
 
-    public LocalVariables popSlots(int count) {
+    public LocalVariables popVariables(int count) {
         assert top >= count;
 
         var ret = new LocalVariables(count);

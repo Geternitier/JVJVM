@@ -31,6 +31,6 @@ public abstract class Attribute {
 
     @Override
     public String toString(){
-        return "TODO: " + name;
+        return "Attribute: " + name;
     }
 }

@@ -7,12 +7,11 @@ import runtime.OperandStack;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-@AllArgsConstructor
 public class BIPUSH implements Instruction {
     private final int value;
 
-    public static BIPUSH bipush(ProgramCounter pc, Method method){
-        return new BIPUSH(pc.byte_());
+    public BIPUSH(ProgramCounter pc, Method method){
+        value = pc.byte_();
     }
 
     @Override

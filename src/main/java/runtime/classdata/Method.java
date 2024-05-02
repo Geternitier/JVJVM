@@ -1,5 +1,6 @@
 package runtime.classdata;
 
+import classdefs.MethodDescriptor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import runtime.JClass;
@@ -44,6 +45,10 @@ public class Method {
                 break;
             }
         }
+    }
+
+    public int countArgc(){
+        return MethodDescriptor.countArgc(descriptor);
     }
 
     public int getAttributeCount(){

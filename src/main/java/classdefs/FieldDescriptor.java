@@ -27,4 +27,12 @@ public class FieldDescriptor {
             default -> 'L' + name.replace('.', '/') + ';';
         };
     }
+
+    public static int getSize(String descriptor) {
+        return getSize(descriptor.charAt(0));
+    }
+
+    public static int getSize(char c) {
+        return (c == DESC_double || c == DESC_long) ? 2 : 1;
+    }
 }

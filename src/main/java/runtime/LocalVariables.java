@@ -12,91 +12,91 @@ public class LocalVariables {
         types = new Class[size];
     }
 
-    public int int_(int index) {
+    public int getInt(int index) {
         if(types[index] != Integer.class){
             throw new ClassCastException(String.format("slots %d is not an %s",index,types[index]));
         }
         return buf.getInt(index * 4);
     }
 
-    public void int_(int index, int value) {
+    public void setInt(int index, int value) {
         types[index] = Integer.class;
         buf.putInt(index * 4, value);
     }
 
-    public long long_(int index) {
+    public long getLong(int index) {
         if(types[index] != Long.class){
             throw new ClassCastException(String.format("slots %d is not a %s",index,types[index]));
         }
         return buf.getLong(index * 4);
     }
 
-    public void long_(int index, long value) {
+    public void setLong(int index, long value) {
         types[index] = Long.class;
         types[index + 1] = null;
         buf.putLong(index * 4, value);
     }
 
-    public float float_(int index) {
+    public float getFloat(int index) {
         if(types[index] != Float.class){
             throw new ClassCastException(String.format("slots %d is not a %s",index,types[index]));
         }
         return buf.getFloat(index * 4);
     }
 
-    public void float_(int index, float value) {
+    public void setFloat(int index, float value) {
         types[index] = Float.class;
         buf.putFloat(index * 4,value);
     }
 
-    public double double_(int index) {
+    public double getDouble(int index) {
         if(types[index] != Double.class){
             throw new ClassCastException(String.format("slots %d is not a %s",index,types[index]));
         }
         return buf.getDouble(index * 4);
     }
 
-    public void double_(int index, double value) {
+    public void setDouble(int index, double value) {
         types[index] = Double.class;
         types[index + 1] = null;
         buf.putDouble(index * 4, value);
     }
 
-    public byte byte_(int index) {
-        return (byte) int_(index);
+    public byte getByte(int index) {
+        return (byte) getInt(index);
     }
 
-    public void byte_(int index, byte value) {
-        int_(index,value);
+    public void setByte(int index, byte value) {
+        setInt(index, value);
     }
 
-    public char char_(int index) {
-        return (char)int_(index);
+    public char getChar(int index) {
+        return (char) getInt(index);
     }
 
-    public void char_(int index, char value) {
-        int_(index,value);
+    public void setChar(int index, char value) {
+        setInt(index, value);
     }
 
-    public short short_(int index) {
-        return (short) int_(index);
+    public short getShort(int index) {
+        return (short) getInt(index);
     }
 
-    public void short_(int index, short value) {
-        int_(index,value);
+    public void setShort(int index, short value) {
+        setInt(index, value);
     }
 
-    public Optional<Object> value(int index) {
+    public Optional<Object> getValue(int index) {
         if (types[index] == null) return Optional.empty();
 
         return switch (types[index].getSimpleName()) {
-            case "Integer" -> Optional.of(int_(index));
-            case "Long" -> Optional.of(long_(index));
-            case "Float" -> Optional.of(float_(index));
-            case "Double" -> Optional.of(double_(index));
-            case "Byte" -> Optional.of(byte_(index));
-            case "Character" -> Optional.of(char_(index));
-            case "Short" -> Optional.of(short_(index));
+            case "Integer" -> Optional.of(getInt(index));
+            case "Long" -> Optional.of(getLong(index));
+            case "Float" -> Optional.of(getFloat(index));
+            case "Double" -> Optional.of(getDouble(index));
+            case "Byte" -> Optional.of(getByte(index));
+            case "Character" -> Optional.of(getChar(index));
+            case "Short" -> Optional.of(getShort(index));
             default -> throw new ClassCastException(String.format("unexpected type %s", types[index]));
         };
     }
@@ -123,7 +123,7 @@ public class LocalVariables {
     public String toString(){
         StringBuilder sb = new StringBuilder("[");
         for(int i = 0;i < size();i++){
-            sb.append(int_(i));
+            sb.append(getInt(i));
             if(i != size() - 1){
                 sb.append(", ");
             }

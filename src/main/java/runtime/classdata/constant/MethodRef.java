@@ -12,6 +12,9 @@ public class MethodRef extends RefConstant{
     }
 
     public Method getMethod(){
-        return null;
+        if(method == null){
+            method = getJClass().getMethod(getName(), getType());
+        }
+        return method;
     }
 }

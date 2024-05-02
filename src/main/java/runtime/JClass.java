@@ -79,6 +79,10 @@ public class JClass {
 
     }
 
+    public String getName(){
+        return getThisClass().getName();
+    }
+
     public int getInterfaceCount(){
         return interfaces.length;
     }
@@ -109,6 +113,15 @@ public class JClass {
 
     public Attribute getAttribute(int index){
         return attributes[index];
+    }
+
+    public Field getField(String name, String descriptor){
+        for(Field field: fields){
+            if(field.getName().equals(name) && field.getDescriptor().equals(descriptor)){
+                return field;
+            }
+        }
+        return null;
     }
 
     public Method getMethod(String name, String descriptor){

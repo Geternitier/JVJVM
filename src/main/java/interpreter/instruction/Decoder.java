@@ -3,6 +3,8 @@ package interpreter.instruction;
 import interpreter.instruction.constants.*;
 import interpreter.instruction.control.IRETURN;
 import interpreter.instruction.control.RETURN;
+import interpreter.instruction.references.INVOKESTATIC;
+import interpreter.instruction.stores.*;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
@@ -26,12 +28,12 @@ public class Decoder {
 
     static final BiFunction<ProgramCounter, Method, Instruction>[] decodeTable = of(
             // @formatter:off
-            /* 0x00 */  null, null, ICONST_M1::iconst_m1, ICONST_0::iconst_0,
-            /* 0x04 */  ICONST_1::iconst_1, null, null, null,
-            /* 0x08 */  null, null, null, null,
-            /* 0x0c */  null, null, null, null,
-            /* 0x10 */  BIPUSH::bipush, SIPUSH::sipush, null, null,
-            /* 0x14 */  null, null, null, null,
+            /* 0x00 */  NOP::new, ACONST_NULL::new, ICONST_M1::iconst_m1, ICONST_0::new,
+            /* 0x04 */  ICONST_1::new, ICONST_2::new, ICONST_3::new, ICONST_4::new,
+            /* 0x08 */  ICONST_5::new, LCONST_0::new, LCONST_1::new, FCONST_0::new,
+            /* 0x0c */  FCONST_1::new, FCONST_2::new, DCONST_0::new, DCONST_1::new,
+            /* 0x10 */  BIPUSH::new, SIPUSH::new, LDC::new, LDC_W::new,
+            /* 0x14 */  LDC2_W::new, null, null, null,
             /* 0x18 */  null, null, null, null,
             /* 0x1c */  null, null, null, null,
             /* 0x20 */  null, null, null, null,
@@ -39,12 +41,12 @@ public class Decoder {
             /* 0x28 */  null, null, null, null,
             /* 0x2c */  null, null, null, null,
             /* 0x30 */  null, null, null, null,
-            /* 0x34 */  null, null, null, null,
-            /* 0x38 */  null, null, null, null,
-            /* 0x3c */  null, null, null, null,
-            /* 0x40 */  null, null, null, null,
-            /* 0x44 */  null, null, null, null,
-            /* 0x48 */  null, null, null, null,
+            /* 0x34 */  null, null, ISTORE::new, LSTORE::new,
+            /* 0x38 */  FSTORE::new, DSTORE::new, ASTORE::new, ISTORE_0::new,
+            /* 0x3c */  ISTORE_1::new, ISTORE_2::new, ISTORE_3::new, LSTORE_0::new,
+            /* 0x40 */  LSTORE_1::new, LSTORE_2::new, LSTORE_3::new, FSTORE_0::new,
+            /* 0x44 */  FSTORE_1::new, FSTORE_2::new, FSTORE_3::new, DSTORE_0::new,
+            /* 0x48 */  DSTORE_1::new, DSTORE_2::new, DSTORE_3::new, null,
             /* 0x4c */  null, null, null, null,
             /* 0x50 */  null, null, null, null,
             /* 0x54 */  null, null, null, null,
@@ -70,9 +72,9 @@ public class Decoder {
             /* 0xa4 */  null, null, null, null,
             /* 0xa8 */  null, null, null, null,
             /* 0xac */  IRETURN::ireturn, null, null, null,
-            /* 0xb0 */  null, RETURN::return_, null, null,
+            /* 0xb0 */  null, RETURN::new, null, null,
             /* 0xb4 */  null, null, null, null,
-            /* 0xb8 */  null, null, null, null,
+            /* 0xb8 */  INVOKESTATIC::new, null, null, null,
             /* 0xbc */  null, null, null, null,
             /* 0xc0 */  null, null, null, null,
             /* 0xc4 */  null, null, null, null,
