@@ -21,8 +21,9 @@ public class INVOKESTATIC implements Instruction {
         System.out.println(this);
 
         OperandStack stack = thread.top().getOperandStack();
-        LocalVariables args = stack.popVariables(method.countArgc());
-        thread.getVirtualMachine().getInterpreter().invoke(method, thread, args);
+        // TODO
+        // LocalVariables args = stack.popVariables(method.countArgc());
+        // thread.getVirtualMachine().getInterpreter().invoke(method, thread, args);
     }
 
     @Override

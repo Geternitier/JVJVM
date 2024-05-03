@@ -1,129 +1,130 @@
 package runtime;
 
-import java.nio.ByteBuffer;
-import java.util.Optional;
-
 public class LocalVariables {
-    private final ByteBuffer buf;
+    private final Variable[] variables;
     private final Class<?>[] types;
 
     public LocalVariables(int size){
-        buf = ByteBuffer.allocate(size * 4);
+        variables = new Variable[size];
         types = new Class[size];
     }
 
-    public int getInt(int index) {
-        if(types[index] != Integer.class){
-            throw new ClassCastException(String.format("slots %d is not an %s",index,types[index]));
-        }
-        return buf.getInt(index * 4);
+    public void set(int index, Variable variable){
+        if(variable == null) {
+            variables[index] = null;
+        } else variables[index] = new Variable(variable);
     }
 
     public void setInt(int index, int value) {
+        variables[index] = new Variable(value);
         types[index] = Integer.class;
-        buf.putInt(index * 4, value);
-    }
-
-    public long getLong(int index) {
-        if(types[index] != Long.class){
-            throw new ClassCastException(String.format("slots %d is not a %s",index,types[index]));
-        }
-        return buf.getLong(index * 4);
     }
 
     public void setLong(int index, long value) {
+        int high = (int) (value >> 32);                 //高32位
+        int low = (int) (value & 0x000000ffffffffL);    //低32位
+        variables[index] = new Variable(high);
+        variables[index + 1] = new Variable(low);
+
         types[index] = Long.class;
         types[index + 1] = null;
-        buf.putLong(index * 4, value);
-    }
-
-    public float getFloat(int index) {
-        if(types[index] != Float.class){
-            throw new ClassCastException(String.format("slots %d is not a %s",index,types[index]));
-        }
-        return buf.getFloat(index * 4);
     }
 
     public void setFloat(int index, float value) {
+        variables[index] = new Variable(Float.floatToIntBits(value));
         types[index] = Float.class;
-        buf.putFloat(index * 4,value);
-    }
-
-    public double getDouble(int index) {
-        if(types[index] != Double.class){
-            throw new ClassCastException(String.format("slots %d is not a %s",index,types[index]));
-        }
-        return buf.getDouble(index * 4);
     }
 
     public void setDouble(int index, double value) {
         types[index] = Double.class;
         types[index + 1] = null;
-        buf.putDouble(index * 4, value);
+        long temp = Double.doubleToLongBits(value);
+
+        int high = (int) (temp >> 32);                   //高32位
+        int low = (int) (temp & 0x000000ffffffffL);      //低32位
+
+        variables[index] = new Variable(high);
+        variables[index + 1] = new Variable(low);
     }
 
-    public byte getByte(int index) {
-        return (byte) getInt(index);
+    public void setReference(int index, Reference reference){
+        types[index] = Reference.class;
+        variables[index] = new Variable(reference);
     }
 
-    public void setByte(int index, byte value) {
-        setInt(index, value);
+    public Variable get(int index){
+        return variables[index];
     }
 
-    public char getChar(int index) {
-        return (char) getInt(index);
+    public int getInt(int index) {
+        if(types[index] != Integer.class && types[index] != null){
+            throw new ClassCastException(String.format("variables %d is not a %s", index, types[index]));
+        }
+        return variables[index].getInteger();
     }
 
-    public void setChar(int index, char value) {
-        setInt(index, value);
+    public long getLong(int index) {
+        if(types[index] != Long.class){
+            throw new ClassCastException(String.format("variables %d is not a %s", index, types[index]));
+        }
+        int high = variables[index].getInteger();
+        int low = variables[index + 1].getInteger();
+
+        long l1 = (high & 0x000000ffffffffL) << 32;
+        long l2 = low & 0x00000000ffffffffL;
+        return l1 | l2;
     }
 
-    public short getShort(int index) {
-        return (short) getInt(index);
+    public float getFloat(int index) {
+        if(types[index] != Float.class){
+            throw new ClassCastException(String.format("variables %d is not a %s", index, types[index]));
+        }
+        return Float.intBitsToFloat(variables[index].getInteger());
     }
 
-    public void setShort(int index, short value) {
-        setInt(index, value);
+    public double getDouble(int index) {
+        if(types[index] != Double.class){
+            throw new ClassCastException(String.format("variables %d is not a %s", index, types[index]));
+        }
+        int high = variables[index].getInteger();
+        int low = variables[index + 1].getInteger();
+
+        long l1 = (high & 0x000000ffffffffL) << 32;
+        long l2 = low & 0x00000000ffffffffL;
+
+        return Double.longBitsToDouble(l1 | l2);
     }
 
-    public Optional<Object> getValue(int index) {
-        if (types[index] == null) return Optional.empty();
-
-        return switch (types[index].getSimpleName()) {
-            case "Integer" -> Optional.of(getInt(index));
-            case "Long" -> Optional.of(getLong(index));
-            case "Float" -> Optional.of(getFloat(index));
-            case "Double" -> Optional.of(getDouble(index));
-            case "Byte" -> Optional.of(getByte(index));
-            case "Character" -> Optional.of(getChar(index));
-            case "Short" -> Optional.of(getShort(index));
-            default -> throw new ClassCastException(String.format("unexpected type %s", types[index]));
-        };
+    public Reference getReference(int index){
+        if(types[index] != Reference.class){
+            throw new ClassCastException(String.format("variables %d is not a %s", index, types[index]));
+        }
+        return variables[index].getReference();
     }
 
     public int size() {
-        return buf.limit() / 4;
+        return variables.length;
     }
 
-    public void copyTo(int begin, int length, LocalVariables dest, int destBegin) {
+    public void copyTo(int begin, int length, LocalVariables dest, int destBegin){
         if(dest == this && destBegin > begin){
             for(int i = length - 1;i >= 0;i--){
                 types[destBegin + i] = types[begin + i];
-                buf.putInt(4 * (destBegin + i), buf.getInt(4 * (begin + i)));
+                dest.set(destBegin + i, get(begin + i));
             }
         } else {
             for (int i = 0;i < length;i++){
                 dest.types[destBegin + i] = types[begin + i];
-                dest.buf.putInt(4 * (destBegin + i), buf.getInt(4 * (begin + i)));
+                dest.set(destBegin + i, get(begin + i));
             }
         }
     }
 
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder("[");
+        StringBuilder sb = new StringBuilder("LocalVariables: [");
         for(int i = 0;i < size();i++){
-            sb.append(getInt(i));
+            sb.append(get(i));
             if(i != size() - 1){
                 sb.append(", ");
             }

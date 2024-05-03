@@ -1,9 +1,9 @@
 package interpreter.instruction;
 
 import interpreter.instruction.constants.*;
-import interpreter.instruction.control.IRETURN;
-import interpreter.instruction.control.RETURN;
-import interpreter.instruction.references.INVOKESTATIC;
+import interpreter.instruction.loads.*;
+import interpreter.instruction.control.*;
+import interpreter.instruction.references.*;
 import interpreter.instruction.stores.*;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
@@ -33,12 +33,12 @@ public class Decoder {
             /* 0x08 */  ICONST_5::new, LCONST_0::new, LCONST_1::new, FCONST_0::new,
             /* 0x0c */  FCONST_1::new, FCONST_2::new, DCONST_0::new, DCONST_1::new,
             /* 0x10 */  BIPUSH::new, SIPUSH::new, LDC::new, LDC_W::new,
-            /* 0x14 */  LDC2_W::new, null, null, null,
-            /* 0x18 */  null, null, null, null,
-            /* 0x1c */  null, null, null, null,
-            /* 0x20 */  null, null, null, null,
-            /* 0x24 */  null, null, null, null,
-            /* 0x28 */  null, null, null, null,
+            /* 0x14 */  LDC2_W::new, ILOAD::new, LLOAD::new, FLOAD::new,
+            /* 0x18 */  DLOAD::new, ALOAD::new, ILOAD_0::new, ILOAD_1::new,
+            /* 0x1c */  ILOAD_2::new, ILOAD_3::new, LLOAD_0::new, LLOAD_1::new,
+            /* 0x20 */  LLOAD_2::new, LLOAD_3::new, FLOAD_0::new, FLOAD_1::new,
+            /* 0x24 */  FLOAD_2::new, FLOAD_3::new, DLOAD_0::new, DLOAD_1::new,
+            /* 0x28 */  DLOAD_2::new, DLOAD_3::new, null, null,
             /* 0x2c */  null, null, null, null,
             /* 0x30 */  null, null, null, null,
             /* 0x34 */  null, null, ISTORE::new, LSTORE::new,
