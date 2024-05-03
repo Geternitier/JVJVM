@@ -6,8 +6,8 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-public class IADD implements Instruction {
-    public IADD(ProgramCounter programCounter, Method method) {
+public class LUSHR implements Instruction {
+    public LUSHR(ProgramCounter programCounter, Method method) {
 
     }
 
@@ -15,13 +15,13 @@ public class IADD implements Instruction {
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         int value2 = curFrame.getOperandStack().popInt();
-        int value1 = curFrame.getOperandStack().popInt();
-        curFrame.getOperandStack().pushInt(value1 + value2);
+        long value1 = curFrame.getOperandStack().popLong();
+        int s = value2 & 0x3f;
+        curFrame.getOperandStack().pushLong((value1 > 0)?value1 >> s:((value1 >> s) + (2L << ~s)));
     }
-
 
     @Override
     public String toString(){
-        return "iadd";
+        return "lushr";
     }
 }

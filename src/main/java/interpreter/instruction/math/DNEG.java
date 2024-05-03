@@ -6,22 +6,20 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-public class IADD implements Instruction {
-    public IADD(ProgramCounter programCounter, Method method) {
+public class DNEG implements Instruction {
+    public DNEG(ProgramCounter programCounter, Method method) {
 
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
-        int value2 = curFrame.getOperandStack().popInt();
-        int value1 = curFrame.getOperandStack().popInt();
-        curFrame.getOperandStack().pushInt(value1 + value2);
+        double value = curFrame.getOperandStack().popDouble();
+        curFrame.getOperandStack().pushDouble(-value);
     }
-
 
     @Override
     public String toString(){
-        return "iadd";
+        return "dneg";
     }
 }

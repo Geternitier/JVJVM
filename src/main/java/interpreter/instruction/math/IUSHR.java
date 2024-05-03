@@ -6,8 +6,8 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-public class IADD implements Instruction {
-    public IADD(ProgramCounter programCounter, Method method) {
+public class IUSHR implements Instruction {
+    public IUSHR(ProgramCounter programCounter, Method method) {
 
     }
 
@@ -16,12 +16,13 @@ public class IADD implements Instruction {
         JFrame curFrame = thread.top();
         int value2 = curFrame.getOperandStack().popInt();
         int value1 = curFrame.getOperandStack().popInt();
-        curFrame.getOperandStack().pushInt(value1 + value2);
+        int s = value2 & 0x1f;
+        curFrame.getOperandStack().pushInt((value1 > 0)?value1 >> s:((value1 >> s) + (2 << ~s)));
     }
-
 
     @Override
     public String toString(){
-        return "iadd";
+        return "iushr";
     }
+
 }
