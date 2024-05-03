@@ -3,7 +3,7 @@ package interpreter.instruction.control;
 import interpreter.instruction.Instruction;
 import runtime.JThread;
 import runtime.ProgramCounter;
-import runtime.Reference;
+import runtime.reference.Reference;
 import runtime.classdata.Method;
 
 public class ARETURN implements Instruction {

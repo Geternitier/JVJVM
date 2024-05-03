@@ -3,6 +3,8 @@ package interpreter.instruction.control;
 import interpreter.instruction.Instruction;
 import runtime.*;
 import runtime.classdata.Method;
+import runtime.reference.Reference;
+import runtime.reference.ReturnAddress;
 
 public class RET implements Instruction {
     private final int index;

@@ -1,5 +1,7 @@
 package runtime;
 
+import runtime.reference.Reference;
+
 public class LocalVariables {
     private final Variable[] variables;
     private final Class<?>[] types;

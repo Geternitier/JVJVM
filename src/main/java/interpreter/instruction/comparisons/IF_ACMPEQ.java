@@ -4,7 +4,7 @@ import interpreter.instruction.Instruction;
 import runtime.JFrame;
 import runtime.JThread;
 import runtime.ProgramCounter;
-import runtime.Reference;
+import runtime.reference.Reference;
 import runtime.classdata.Method;
 
 public class IF_ACMPEQ implements Instruction {

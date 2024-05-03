@@ -4,7 +4,7 @@ import interpreter.instruction.Instruction;
 import runtime.JFrame;
 import runtime.JThread;
 import runtime.ProgramCounter;
-import runtime.ReturnAddress;
+import runtime.reference.ReturnAddress;
 import runtime.classdata.Method;
 
 public class JSR implements Instruction {

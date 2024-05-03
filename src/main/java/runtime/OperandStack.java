@@ -1,6 +1,8 @@
 package runtime;
 
 import lombok.Getter;
+import runtime.reference.Reference;
+
 import java.util.Arrays;
 
 public class OperandStack {

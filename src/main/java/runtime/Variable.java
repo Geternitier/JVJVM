@@ -1,6 +1,7 @@
 package runtime;
 
 import lombok.Getter;
+import runtime.reference.Reference;
 
 @Getter
 public class Variable {
