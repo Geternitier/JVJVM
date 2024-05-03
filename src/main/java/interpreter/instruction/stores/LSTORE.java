@@ -10,7 +10,7 @@ public class LSTORE implements Instruction {
     private final int index;
 
     public LSTORE(ProgramCounter pc, Method method){
-        index = pc.ubyte();
+        index = pc.readUnsignedByte();
     }
 
     @Override

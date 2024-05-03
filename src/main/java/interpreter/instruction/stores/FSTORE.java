@@ -10,7 +10,7 @@ public class FSTORE implements Instruction {
     private final int index;
 
     public FSTORE(ProgramCounter pc, Method method){
-        index = pc.ubyte();
+        index = pc.readUnsignedByte();
     }
 
     @Override

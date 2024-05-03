@@ -10,12 +10,17 @@ public class DLOAD implements Instruction {
     private final int index;
 
     public DLOAD(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
+        index = programCounter.readUnsignedByte();
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushDouble(curFrame.getLocalVariables().getDouble(index));
+    }
+
+    @Override
+    public String toString(){
+        return "dload";
     }
 }

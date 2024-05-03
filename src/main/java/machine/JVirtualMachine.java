@@ -50,7 +50,7 @@ public class JVirtualMachine {
 
     public static void main(String[] args){
         JVirtualMachine machine = new JVirtualMachine("output/");
-        machine.run("Bye");
+        machine.run("SwitchBranch");
         System.out.println("HelloWorld!");
     }
 }

@@ -10,12 +10,17 @@ public class FLOAD implements Instruction {
     private final int index;
 
     public FLOAD(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
+        index = programCounter.readUnsignedByte();
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushFloat(curFrame.getLocalVariables().getFloat(index));
+    }
+
+    @Override
+    public String toString(){
+        return "fload";
     }
 }

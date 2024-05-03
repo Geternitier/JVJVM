@@ -10,7 +10,7 @@ public class LDC_W implements Instruction {
     private final LDC ldc;
 
     public LDC_W(ProgramCounter programCounter, Method method) {
-        index = programCounter.ushort();
+        index = programCounter.readUnsignedShort();
         ldc = new LDC(index);
     }
 

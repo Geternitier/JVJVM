@@ -10,12 +10,17 @@ public class ILOAD implements Instruction {
     private final int index;
 
     public ILOAD(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
+        index = programCounter.readUnsignedByte();
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushInt(curFrame.getLocalVariables().getInt(index));
+    }
+
+    @Override
+    public String toString(){
+        return "iload";
     }
 }

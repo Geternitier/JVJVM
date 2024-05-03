@@ -16,4 +16,9 @@ public class DLOAD_1 implements Instruction {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushDouble(curFrame.getLocalVariables().getDouble(1));
     }
+
+    @Override
+    public String toString(){
+        return "dload_1";
+    }
 }

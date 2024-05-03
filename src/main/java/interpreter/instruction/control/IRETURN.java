@@ -13,7 +13,7 @@ public class IRETURN implements Instruction {
 
     @Override
     public void run(JThread thread) {
-        int value = thread.top().getOperandStack().getTop();
+        int value = thread.top().getOperandStack().popInt();
         thread.pop();
         thread.top().getOperandStack().pushInt(value);
     }

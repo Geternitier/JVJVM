@@ -12,7 +12,7 @@ public class GETSTATIC implements Instruction {
     private final int index;
 
     public GETSTATIC(ProgramCounter pc, Method method){
-        index = pc.short_();
+        index = pc.readShort();
     }
 
 

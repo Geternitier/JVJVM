@@ -10,7 +10,7 @@ public class ISTORE implements Instruction {
     private final int index;
 
     public ISTORE(ProgramCounter pc, Method method){
-        index = pc.ubyte();
+        index = pc.readUnsignedByte();
     }
 
     @Override

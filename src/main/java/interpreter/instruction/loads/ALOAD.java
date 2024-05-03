@@ -10,12 +10,17 @@ public class ALOAD implements Instruction {
     private final int index;
 
     public ALOAD(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
+        index = programCounter.readUnsignedByte();
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         // TODO
+    }
+
+    @Override
+    public String toString(){
+        return "aload";
     }
 }

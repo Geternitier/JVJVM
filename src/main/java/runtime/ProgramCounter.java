@@ -9,20 +9,33 @@ public class ProgramCounter {
         buf = ByteBuffer.wrap(code);
     }
 
-    public byte byte_() {
+    public int readPadding(){
+        int padding = getPosition() % 4;
+        if(padding != 0){
+            setPosition(getPosition() + 4 - padding);
+            return 4 - padding;
+        }
+        return padding;
+    }
+
+    public byte readByte() {
         return buf.get();
     }
 
-    public int ubyte() {
+    public int readUnsignedByte() {
         return Byte.toUnsignedInt(buf.get());
     }
 
-    public short short_() {
+    public short readShort() {
         return buf.getShort();
     }
 
-    public int ushort() {
+    public int readUnsignedShort() {
         return Short.toUnsignedInt(buf.getShort());
+    }
+
+    public int readInt() {
+        return buf.getInt();
     }
 
     public void move(int offset) {

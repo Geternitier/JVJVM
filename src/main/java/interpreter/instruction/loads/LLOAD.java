@@ -10,12 +10,17 @@ public class LLOAD implements Instruction {
     private final int index;
 
     public LLOAD(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
+        index = programCounter.readUnsignedByte();
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushLong(curFrame.getLocalVariables().getLong(index));
+    }
+
+    @Override
+    public String toString(){
+        return "lload";
     }
 }

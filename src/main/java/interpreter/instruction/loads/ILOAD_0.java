@@ -16,4 +16,9 @@ public class ILOAD_0 implements Instruction {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushInt(curFrame.getLocalVariables().getInt(0));
     }
+
+    @Override
+    public String toString(){
+        return "iload_0";
+    }
 }

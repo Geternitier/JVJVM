@@ -11,8 +11,8 @@ public class IINC implements Instruction {
     private final int value;
 
     public IINC(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
-        value = programCounter.byte_();
+        index = programCounter.readUnsignedByte();
+        value = programCounter.readByte();
     }
 
 

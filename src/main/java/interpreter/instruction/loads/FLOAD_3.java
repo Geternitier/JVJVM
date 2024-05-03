@@ -16,4 +16,9 @@ public class FLOAD_3 implements Instruction {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushFloat(curFrame.getLocalVariables().getFloat(3));
     }
+
+    @Override
+    public String toString(){
+        return "fload_3";
+    }
 }

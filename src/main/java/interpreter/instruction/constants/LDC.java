@@ -13,7 +13,7 @@ public class LDC implements Instruction {
     private final int index;
 
     public LDC(ProgramCounter programCounter, Method method) {
-        index = programCounter.ubyte();
+        index = programCounter.readUnsignedByte();
     }
 
     public LDC(int index){this.index = index;}

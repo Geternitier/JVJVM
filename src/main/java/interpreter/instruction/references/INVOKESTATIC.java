@@ -2,7 +2,6 @@ package interpreter.instruction.references;
 
 import interpreter.instruction.Instruction;
 import runtime.JThread;
-import runtime.LocalVariables;
 import runtime.OperandStack;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
@@ -12,7 +11,7 @@ public class INVOKESTATIC implements Instruction {
     private final Method method;
 
     public INVOKESTATIC(ProgramCounter pc, Method method){
-        MethodRef methodRef = (MethodRef) method.getJClass().getConstantPool().getConstant(pc.ushort());
+        MethodRef methodRef = (MethodRef) method.getJClass().getConstantPool().getConstant(pc.readUnsignedShort());
         this.method = methodRef.getMethod();
     }
 

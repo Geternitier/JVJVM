@@ -16,4 +16,9 @@ public class LLOAD_0 implements Instruction {
         JFrame curFrame = thread.top();
         curFrame.getOperandStack().pushLong(curFrame.getLocalVariables().getLong(0));
     }
+
+    @Override
+    public String toString(){
+        return "lload_0";
+    }
 }

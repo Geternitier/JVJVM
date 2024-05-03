@@ -14,7 +14,7 @@ public class LDC2_W implements Instruction {
     private final int index;
 
     public LDC2_W(ProgramCounter programCounter, Method method) {
-        index = programCounter.ushort();
+        index = programCounter.readUnsignedShort();
     }
 
     @Override

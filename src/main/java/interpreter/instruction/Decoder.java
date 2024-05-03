@@ -1,12 +1,13 @@
 package interpreter.instruction;
 
 import interpreter.instruction.constants.*;
-import interpreter.instruction.conversions.*;
 import interpreter.instruction.loads.*;
-import interpreter.instruction.stack.*;
 import interpreter.instruction.stores.*;
 import interpreter.instruction.control.*;
+import interpreter.instruction.stack.*;
 import interpreter.instruction.math.*;
+import interpreter.instruction.conversions.*;
+import interpreter.instruction.comparisons.*;
 import interpreter.instruction.references.*;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
@@ -15,7 +16,7 @@ import java.util.function.BiFunction;
 
 public class Decoder {
     public static Instruction decode(ProgramCounter pc, Method method){
-        int opCode = Byte.toUnsignedInt(pc.byte_());
+        int opCode = Byte.toUnsignedInt(pc.readByte());
         if (Decoder.decodeTable[opCode] == null) {
             throw new UnimplementedInstructionError(opCode);
         }
@@ -68,14 +69,14 @@ public class Decoder {
             /* 0x88 */  L2I::new, L2F::new, L2D::new, F2I::new,
             /* 0x8c */  F2L::new, F2D::new, D2I::new, D2L::new,
             /* 0x90 */  D2F::new, I2B::new, I2C::new, I2S::new,
-            /* 0x94 */  null, null, null, null,
-            /* 0x98 */  null, null, null, null,
-            /* 0x9c */  null, null, null, null,
-            /* 0xa0 */  null, null, null, null,
-            /* 0xa4 */  null, null, null, null,
-            /* 0xa8 */  null, null, null, null,
-            /* 0xac */  IRETURN::new, null, null, null,
-            /* 0xb0 */  null, RETURN::new, null, null,
+            /* 0x94 */  LCMP::new, FCMPL::new, FCMPG::new, DCMPL::new,
+            /* 0x98 */  DCMPG::new, IFEQ::new, IFNE::new, IFLT::new,
+            /* 0x9c */  IFGE::new, IFGT::new, IFLE::new, IF_ICMPEQ::new,
+            /* 0xa0 */  IF_ICMPNE::new, IF_ICMPLT::new, IF_ICMPGE::new, IF_ICMPGT::new,
+            /* 0xa4 */  IF_ICMPLE::new, IF_ACMPEQ::new, IF_ACMPNE::new, GOTO::new,
+            /* 0xa8 */  JSR::new, RET::new, TABLESWITCH::new, LOOKUPSWITCH::new,
+            /* 0xac */  IRETURN::new, LRETURN::new, FRETURN::new, DRETURN::new,
+            /* 0xb0 */  ARETURN::new, RETURN::new, null, null,
             /* 0xb4 */  null, null, null, null,
             /* 0xb8 */  INVOKESTATIC::new, null, null, null,
             /* 0xbc */  null, null, null, null,

@@ -19,7 +19,7 @@ public class Variable {
 
     public Variable(Variable variable){
         integer = variable.getInteger();
-        reference = variable.getReference() == null?null: variable.getReference().clone();
+        reference = variable.getReference();
     }
 
     @Override
