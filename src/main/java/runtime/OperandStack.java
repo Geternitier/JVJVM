@@ -1,7 +1,6 @@
 package runtime;
 
 import lombok.Getter;
-
 import java.util.Arrays;
 
 public class OperandStack {
@@ -18,6 +17,10 @@ public class OperandStack {
 
     public void push(Variable variable){
         stack[top++] = variable;
+    }
+
+    public Variable top(){
+        return stack[top - 1];
     }
 
     public Variable pop(){

@@ -2,9 +2,11 @@ package interpreter.instruction;
 
 import interpreter.instruction.constants.*;
 import interpreter.instruction.loads.*;
-import interpreter.instruction.control.*;
-import interpreter.instruction.references.*;
+import interpreter.instruction.stack.*;
 import interpreter.instruction.stores.*;
+import interpreter.instruction.control.*;
+import interpreter.instruction.math.*;
+import interpreter.instruction.references.*;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
@@ -49,10 +51,10 @@ public class Decoder {
             /* 0x48 */  DSTORE_1::new, DSTORE_2::new, DSTORE_3::new, null,
             /* 0x4c */  null, null, null, null,
             /* 0x50 */  null, null, null, null,
-            /* 0x54 */  null, null, null, null,
-            /* 0x58 */  null, null, null, null,
-            /* 0x5c */  null, null, null, null,
-            /* 0x60 */  null, null, null, null,
+            /* 0x54 */  null, null, null, POP::new,
+            /* 0x58 */  POP2::new, DUP::new, DUP_X1::new, DUP_X2::new,
+            /* 0x5c */  DUP2::new, DUP2_X1::new, DUP2_X2::new, SWAP::new,
+            /* 0x60 */  IADD::new, LADD::new, FADD::new, DADD::new,
             /* 0x64 */  null, null, null, null,
             /* 0x68 */  null, null, null, null,
             /* 0x6c */  null, null, null, null,

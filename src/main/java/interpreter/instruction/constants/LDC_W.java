@@ -7,13 +7,21 @@ import runtime.classdata.Method;
 
 public class LDC_W implements Instruction {
     private final int index;
+    private final LDC ldc;
 
     public LDC_W(ProgramCounter programCounter, Method method) {
         index = programCounter.ushort();
+        ldc = new LDC(index);
     }
 
     @Override
     public void run(JThread thread) {
-        // TODO
+        ldc.run(thread);
+    }
+
+
+    @Override
+    public String toString(){
+        return "ldc_w " + index;
     }
 }

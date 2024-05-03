@@ -19,6 +19,7 @@ public class JVirtualMachine {
     private final JClassLoader userLoader;
     @Getter
     private final JInterpreter interpreter;
+    @Getter
     private final ArrayList<JThread> threads = new ArrayList<>();
 
     public JVirtualMachine(String userClassPath){
