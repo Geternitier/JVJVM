@@ -8,8 +8,7 @@ import runtime.classdata.Method;
 
 public class IRETURN implements Instruction {
 
-    public static IRETURN ireturn(ProgramCounter pc, Method method){
-        return new IRETURN();
+    public IRETURN(ProgramCounter pc, Method method){
     }
 
     @Override

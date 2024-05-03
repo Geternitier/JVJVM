@@ -1,6 +1,7 @@
 package interpreter.instruction;
 
 import interpreter.instruction.constants.*;
+import interpreter.instruction.conversions.*;
 import interpreter.instruction.loads.*;
 import interpreter.instruction.stack.*;
 import interpreter.instruction.stores.*;
@@ -63,17 +64,17 @@ public class Decoder {
             /* 0x78 */  ISHL::new, LSHL::new, ISHR::new, LSHR::new,
             /* 0x7c */  IUSHR::new, LUSHR::new, IAND::new, LAND::new,
             /* 0x80 */  IOR::new, LOR::new, IXOR::new, LXOR::new,
-            /* 0x84 */  IINC::new, null, null, null,
-            /* 0x88 */  null, null, null, null,
-            /* 0x8c */  null, null, null, null,
-            /* 0x90 */  null, null, null, null,
+            /* 0x84 */  IINC::new, I2L::new, I2F::new, I2D::new,
+            /* 0x88 */  L2I::new, L2F::new, L2D::new, F2I::new,
+            /* 0x8c */  F2L::new, F2D::new, D2I::new, D2L::new,
+            /* 0x90 */  D2F::new, I2B::new, I2C::new, I2S::new,
             /* 0x94 */  null, null, null, null,
             /* 0x98 */  null, null, null, null,
             /* 0x9c */  null, null, null, null,
             /* 0xa0 */  null, null, null, null,
             /* 0xa4 */  null, null, null, null,
             /* 0xa8 */  null, null, null, null,
-            /* 0xac */  IRETURN::ireturn, null, null, null,
+            /* 0xac */  IRETURN::new, null, null, null,
             /* 0xb0 */  null, RETURN::new, null, null,
             /* 0xb4 */  null, null, null, null,
             /* 0xb8 */  INVOKESTATIC::new, null, null, null,
