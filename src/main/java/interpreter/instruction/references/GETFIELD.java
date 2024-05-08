@@ -6,6 +6,7 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 import runtime.classdata.constant.FieldRef;
+import runtime.reference.ClassReference;
 import runtime.reference.FieldReference;
 
 public class GETFIELD implements Instruction {
@@ -19,10 +20,12 @@ public class GETFIELD implements Instruction {
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
         FieldRef ref = (FieldRef) curFrame.getDynamicLink().getConstant(index);
-        try {
-            curFrame.getOperandStack().pushReference(new FieldReference(ref.getField()));
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError(e.toString());
+        ClassReference classReference = (ClassReference) curFrame.getOperandStack().popReference();
+        FieldReference fieldRef = classReference.getField(ref.getName());
+        String descriptor = fieldRef.getField().getDescriptor();
+        switch (descriptor) {
+            case "I" -> curFrame.getOperandStack().pushInt(classReference.getField(ref.getName()).getValue().getInt());
+            default -> curFrame.getOperandStack().pushReference(fieldRef);
         }
     }
 

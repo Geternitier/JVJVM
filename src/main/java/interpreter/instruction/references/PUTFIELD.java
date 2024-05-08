@@ -6,6 +6,8 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.Variable;
 import runtime.classdata.Method;
+import runtime.classdata.constant.FieldRef;
+import runtime.reference.ClassReference;
 import runtime.reference.FieldReference;
 import runtime.reference.ReferenceValue;
 
@@ -19,22 +21,30 @@ public class PUTFIELD implements Instruction {
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
-        FieldReference reference = (FieldReference) curFrame.getDynamicLink().getConstant(index);
-        if(reference.getField().getDescriptor().equals("D") || reference.getField().getDescriptor().equals("J")){
-            Variable low = curFrame.getOperandStack().pop();
-            Variable high = curFrame.getOperandStack().pop();
-            FieldReference fieldReference = (FieldReference) curFrame.getOperandStack().popReference();
-            fieldReference.getValue().set(ReferenceValue.of(high, low));
-        } else {
-            Variable value = curFrame.getOperandStack().pop();
-            FieldReference fieldReference = (FieldReference) curFrame.getOperandStack().popReference();
-            fieldReference.getValue().set(ReferenceValue.of(value));
+        FieldRef ref = (FieldRef) curFrame.getDynamicLink().getConstant(index);
+        try {
+            if(ref.getField().getDescriptor().equals("D") || ref.getField().getDescriptor().equals("J")){
+                Variable low = curFrame.getOperandStack().pop();
+                Variable high = curFrame.getOperandStack().pop();
+                ClassReference classReference = (ClassReference) curFrame.getOperandStack().popReference();
+                FieldReference fieldReference = new FieldReference(ref.getField());
+                fieldReference.getValue().set(ReferenceValue.of(high, low));
+                classReference.setField(fieldReference.getField().getName(), fieldReference);
+            } else {
+                Variable value = curFrame.getOperandStack().pop();
+                ClassReference classReference = (ClassReference) curFrame.getOperandStack().popReference();
+                FieldReference fieldReference = new FieldReference(ref.getField());
+                fieldReference.getValue().set(ReferenceValue.of(value));
+                classReference.setField(fieldReference.getField().getName(), fieldReference);
+            }
+        } catch (ClassNotFoundException e) {
+            throw new NoClassDefFoundError(e.toString());
         }
     }
 
     @Override
     public String toString(){
-        return "getfield";
+        return "putfield";
     }
 
 }

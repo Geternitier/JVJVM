@@ -29,6 +29,7 @@ public class JClass {
     @Getter
     private final ClassConstant superClass;
     private final ClassConstant[] interfaces;
+    @Getter
     private final Field[] fields;
     private final Method[] methods;
     private final Attribute[] attributes;
@@ -187,6 +188,30 @@ public class JClass {
         FileInputStream stream = new FileInputStream(file);
         DataInput dataInput = new DataInputStream(stream);
         JClass jClass = new JClass(dataInput, null);
-        System.out.println("Hello World!");
+        System.out.println(jClass.getContent());
+    }
+
+    public String getContent() {
+        StringBuilder sb = new StringBuilder("public class " + getName() + "\n" +
+                "  minor version: " + minorVersion + "\n" +
+                "  major version: " + majorVersion + "\n" +
+                "  flags: (0x" + Integer.toHexString(accessFlags) + ")\n" +
+                "  this_class: " + thisClass.getName() + "\n" +
+                "  super_class: " + (superClass == null ? "null" : superClass.getName()) + "\n" +
+                "  interfaces: " + interfaces.length +
+                ", fields: " + fields.length +
+                ", methods: " + methods.length +
+                ", attributes: " + attributes.length + "\n" + constantPool.getContent());
+        sb.append("{\n");
+        for(int i = 0;i < methods.length;i++){
+            String[] content = methods[i].getContent().split("\n");
+            for(String s: content){
+                sb.append("  ").append(s).append("\n");
+            }
+            if(i != methods.length - 1) sb.append("\n");
+        }
+        sb.append("}\n");
+        sb.append(String.format("SourceFile: \"%s\"\n", constantPool.getSourceFile()));
+        return sb.toString();
     }
 }

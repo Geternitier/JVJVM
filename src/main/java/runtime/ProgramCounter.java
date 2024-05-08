@@ -1,5 +1,8 @@
 package runtime;
 
+import interpreter.instruction.Decoder;
+import runtime.classdata.Method;
+
 import java.nio.ByteBuffer;
 
 public class ProgramCounter {
@@ -48,6 +51,15 @@ public class ProgramCounter {
 
     public int getPosition() {
         return buf.position();
+    }
+
+    public String getCode(Method method){
+        StringBuilder sb = new StringBuilder();
+        while (getPosition() < buf.limit()){
+            sb.append(getPosition()).append(": ");
+            sb.append(Decoder.decode(this, method)).append("\n");
+        }
+        return sb.toString();
     }
 
 }

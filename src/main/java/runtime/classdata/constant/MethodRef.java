@@ -18,4 +18,9 @@ public class MethodRef extends RefConstant{
         }
         return method;
     }
+
+    @Override
+    public String toString(){
+        return String.format("MethodRef: \"%s:%s\"", getName(), getType());
+    }
 }

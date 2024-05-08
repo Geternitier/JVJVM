@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import runtime.JClass;
 import runtime.classdata.constant.Constant;
+import runtime.classdata.constant.UTF8Constant;
 
 import java.io.DataInput;
 
@@ -36,5 +37,17 @@ public class ConstantPool {
 
     public int size() {
         return constants.length;
+    }
+
+    public String getContent(){
+        StringBuilder s = new StringBuilder("Constant pool:\n");
+        for (int i = 1;i < constants.length;i++){
+            s.append(String.format("  #%d = %s\n", i, constants[i].toString()));
+        }
+        return s.toString();
+    }
+
+    public String getSourceFile(){
+        return ((UTF8Constant)constants[constants.length - 1]).getValue();
     }
 }

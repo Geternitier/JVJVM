@@ -18,4 +18,9 @@ public class FieldRef extends RefConstant{
         }
         return field;
     }
+
+    @Override
+    public String toString(){
+        return String.format("FieldRef: \"%s:%s\"", getName(), getType());
+    }
 }

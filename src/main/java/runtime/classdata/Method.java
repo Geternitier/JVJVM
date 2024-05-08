@@ -4,6 +4,7 @@ import classdefs.MethodDescriptor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import runtime.JClass;
+import runtime.ProgramCounter;
 import runtime.classdata.attribute.Attribute;
 import runtime.classdata.attribute.Code;
 import runtime.classdata.constant.UTF8Constant;
@@ -105,5 +106,35 @@ public class Method {
 
     public boolean synthetic() {
         return (accessFlags & ACC_SYNTHETIC) != 0;
+    }
+
+    public String getContent(){
+        StringBuilder sb = new StringBuilder();
+
+        if(public_()) sb.append("public ");
+        else if(private_()) sb.append("private ");
+        else if(protected_()) sb.append("protected ");
+
+        if(static_()) sb.append("static ");
+        else if(abstract_()) sb.append("abstract ");
+
+        if(synchronized_()) sb.append("synchronized ");
+
+        if(final_()) sb.append("final ");
+
+        sb.append(getName()).append("();\n");
+        sb.append("  descriptor: ").append(getDescriptor()).append("\n");
+        sb.append("  flags: (0x").append(Integer.toHexString(accessFlags)).append(")\n");
+        if(code != null){
+            sb.append("  Code:\n    ");
+            sb.append(String.format("stack=%d, locals=%d, args_size=%d\n",
+                    code.getMaxStack(), code.getMaxLocals(), countArgc()));
+            ProgramCounter pc = new ProgramCounter(code.getCode());
+            String[] instructions = pc.getCode(this).split("\n");
+            for(String s: instructions){
+                sb.append("      ").append(s).append("\n");
+            }
+        }
+        return sb.toString();
     }
 }
