@@ -17,7 +17,7 @@ public class MethodDescriptor {
                 ++i;
             }
             if(descriptor.charAt(i) == DESC_reference){
-                i += descriptor.indexOf(';', i) + 1;
+                i += descriptor.indexOf(';', i);
             } else{
                 ++i;
             }

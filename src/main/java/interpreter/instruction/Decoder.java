@@ -1,6 +1,7 @@
 package interpreter.instruction;
 
 import interpreter.instruction.constants.*;
+import interpreter.instruction.extended.*;
 import interpreter.instruction.loads.*;
 import interpreter.instruction.stores.*;
 import interpreter.instruction.control.*;
@@ -42,16 +43,16 @@ public class Decoder {
             /* 0x1c */  ILOAD_2::new, ILOAD_3::new, LLOAD_0::new, LLOAD_1::new,
             /* 0x20 */  LLOAD_2::new, LLOAD_3::new, FLOAD_0::new, FLOAD_1::new,
             /* 0x24 */  FLOAD_2::new, FLOAD_3::new, DLOAD_0::new, DLOAD_1::new,
-            /* 0x28 */  DLOAD_2::new, DLOAD_3::new, null, null,
-            /* 0x2c */  null, null, null, null,
+            /* 0x28 */  DLOAD_2::new, DLOAD_3::new, ALOAD_0::new, ALOAD_1::new,
+            /* 0x2c */  ALOAD_2::new, ALOAD_3::new, null, null,
             /* 0x30 */  null, null, null, null,
             /* 0x34 */  null, null, ISTORE::new, LSTORE::new,
             /* 0x38 */  FSTORE::new, DSTORE::new, ASTORE::new, ISTORE_0::new,
             /* 0x3c */  ISTORE_1::new, ISTORE_2::new, ISTORE_3::new, LSTORE_0::new,
             /* 0x40 */  LSTORE_1::new, LSTORE_2::new, LSTORE_3::new, FSTORE_0::new,
             /* 0x44 */  FSTORE_1::new, FSTORE_2::new, FSTORE_3::new, DSTORE_0::new,
-            /* 0x48 */  DSTORE_1::new, DSTORE_2::new, DSTORE_3::new, null,
-            /* 0x4c */  null, null, null, null,
+            /* 0x48 */  DSTORE_1::new, DSTORE_2::new, DSTORE_3::new, ASTORE_0::new,
+            /* 0x4c */  ASTORE_1::new, ASTORE_2::new, ASTORE_3::new, null,
             /* 0x50 */  null, null, null, null,
             /* 0x54 */  null, null, null, POP::new,
             /* 0x58 */  POP2::new, DUP::new, DUP_X1::new, DUP_X2::new,
@@ -76,12 +77,12 @@ public class Decoder {
             /* 0xa4 */  IF_ICMPLE::new, IF_ACMPEQ::new, IF_ACMPNE::new, GOTO::new,
             /* 0xa8 */  JSR::new, RET::new, TABLESWITCH::new, LOOKUPSWITCH::new,
             /* 0xac */  IRETURN::new, LRETURN::new, FRETURN::new, DRETURN::new,
-            /* 0xb0 */  ARETURN::new, RETURN::new, null, null,
-            /* 0xb4 */  null, null, null, null,
+            /* 0xb0 */  ARETURN::new, RETURN::new, GETSTATIC::new, null,
+            /* 0xb4 */  GETFIELD::new, PUTFIELD::new, INVOKEVIRTUAL::new, null,
             /* 0xb8 */  INVOKESTATIC::new, null, null, null,
             /* 0xbc */  null, null, null, null,
-            /* 0xc0 */  null, null, null, null,
-            /* 0xc4 */  null, null, null, null,
+            /* 0xc0 */  null, null, MONITORENTER::new, null,
+            /* 0xc4 */  null, null, IFNULL::new, IFNONNULL::new,
             /* 0xc8 */  null, null, null, null,
             /* 0xcc */  null, null, null, null,
             /* 0xd0 */  null, null, null, null,

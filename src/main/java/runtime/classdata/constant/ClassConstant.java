@@ -24,10 +24,12 @@ public class ClassConstant implements Constant{
         return name;
     }
 
-    public JClass getValue() {
+    public JClass getValue() throws ClassNotFoundException {
         if(value == null){
             if(getName().equals(jClass.getThisClass().getName())) value = jClass;
-            else value = jClass.getClassLoader().loadClass(FieldDescriptor.of(getName()));
+            else {
+                value = jClass.getClassLoader().loadClass(FieldDescriptor.of(getName()));
+            }
         }
         return value;
     }

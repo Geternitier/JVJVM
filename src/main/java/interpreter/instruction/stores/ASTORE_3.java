@@ -6,21 +6,19 @@ import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
 
-public class ASTORE implements Instruction {
-    private final int index;
+public class ASTORE_3 implements Instruction {
+    public ASTORE_3(ProgramCounter pc, Method method){
 
-    public ASTORE(ProgramCounter pc, Method method){
-        index = pc.readUnsignedByte();
     }
 
     @Override
     public void run(JThread thread) {
         JFrame curFrame = thread.top();
-        curFrame.getLocalVariables().setReference(index, curFrame.getOperandStack().popReference());
+        curFrame.getLocalVariables().setReference(3, curFrame.getOperandStack().popReference());
     }
 
     @Override
     public String toString(){
-        return "astore";
+        return "astore_3";
     }
 }

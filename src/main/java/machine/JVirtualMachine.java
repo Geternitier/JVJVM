@@ -32,8 +32,18 @@ public class JVirtualMachine {
         JThread initThread = new JThread(this);
         threads.add(initThread);
 
-        JClass jClass = userLoader.loadClass('L' + className.replace('.', '/') + ';');
-        Method mainMethod = jClass.getMethod("main", "([Ljava/lang/String;)V");
+        JClass jClass = null;
+        try {
+            jClass = userLoader.loadClass('L' + className.replace('.', '/') + ';');
+        } catch (ClassNotFoundException e) {
+            throw new LinkageError(e.toString());
+        }
+        Method mainMethod = null;
+        try {
+            mainMethod = jClass.getMethod("main", "([Ljava/lang/String;)V");
+        } catch (ClassNotFoundException e) {
+            throw new LinkageError(e.toString());
+        }
 
         assert mainMethod.getJClass() == jClass;
         interpreter.invoke(mainMethod, initThread, new LocalVariables(1));
@@ -50,7 +60,7 @@ public class JVirtualMachine {
 
     public static void main(String[] args){
         JVirtualMachine machine = new JVirtualMachine("output/");
-        machine.run("SwitchBranch");
+        machine.run("Hello");
         System.out.println("HelloWorld!");
     }
 }

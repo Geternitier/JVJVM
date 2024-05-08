@@ -18,9 +18,16 @@ public class JClassLoader implements Closeable {
         this.searchPaths = searchPaths;
     }
 
-    public JClass loadClass(String descriptor){
+    public JClass loadClass(String descriptor) throws ClassNotFoundException {
         JClass jClass;
-        if(parent != null && (jClass = parent.loadClass(descriptor)) != null) return jClass;
+        if(parent != null){
+            try {
+                jClass = parent.loadClass(descriptor);
+                return jClass;
+            } catch (ClassNotFoundException ignored){
+
+            }
+        }
         if((jClass = definedClass.get(descriptor)) != null) return jClass;
         String name = descriptor.substring(1, descriptor.length()-1);
         for(ClassSearchPath path: searchPaths){
@@ -31,7 +38,7 @@ public class JClassLoader implements Closeable {
                 return jClass;
             }
         }
-        return null;
+        throw new ClassNotFoundException(descriptor);
     }
 
     @Override

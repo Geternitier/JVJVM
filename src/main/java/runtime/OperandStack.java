@@ -1,8 +1,11 @@
 package runtime;
 
 import lombok.Getter;
+import runtime.reference.ArrayReference;
 import runtime.reference.Reference;
+import classdefs.FieldDescriptor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class OperandStack {
@@ -21,6 +24,12 @@ public class OperandStack {
         stack[top++] = variable;
     }
 
+    public void push(Variable[] variables){
+        for (Variable variable : variables) {
+            push(variable);
+        }
+    }
+
     public Variable top(){
         return stack[top - 1];
     }
@@ -29,6 +38,83 @@ public class OperandStack {
         Variable variable = stack[--top];
         stack[top] = null;
         return variable;
+    }
+
+    public Variable[] pop(int n){
+        Variable[] res = new Variable[n];
+        for(int i = 0;i < n;i++){
+            res[n - 1 - i] = pop();
+        }
+        return res;
+    }
+
+    public LocalVariables popArgs(String descriptor){
+        int index = 0;
+        StringBuilder des = new StringBuilder();
+        while (index < descriptor.length()){
+            des.append(descriptor.charAt(index));
+            if(descriptor.charAt(index) == 'L'){
+                index += descriptor.indexOf(';', index);
+            } else index++;
+        }
+        descriptor = des.toString();
+        int i = descriptor.indexOf(')') - 1;
+        ArrayList<Variable> variableArrayList = new ArrayList<>();
+        ArrayList<Class<?>> typeList = new ArrayList<>();
+        for(;i > 0;i--){
+            switch (descriptor.charAt(i)){
+                case FieldDescriptor.DESC_int,
+                        FieldDescriptor.DESC_float,
+                        FieldDescriptor.DESC_byte,
+                        FieldDescriptor.DESC_char,
+                        FieldDescriptor.DESC_short,
+                        FieldDescriptor.DESC_boolean -> {
+                    if(descriptor.charAt(i) == '['){
+                        int dimensions = 1;
+                        while (descriptor.charAt(--i) == '['){dimensions++;}
+                        variableArrayList.add(0, new Variable(new ArrayReference(String.valueOf(descriptor.charAt(i)), dimensions)));
+                        typeList.add(0, Reference.class);
+                    } else {
+                        variableArrayList.add(0, pop());
+                        switch (descriptor.charAt(i)){
+                            case FieldDescriptor.DESC_int,
+                                    FieldDescriptor.DESC_byte,
+                                    FieldDescriptor.DESC_short,
+                                    FieldDescriptor.DESC_char,
+                                    FieldDescriptor.DESC_boolean -> typeList.add(0, Integer.class);
+                            case FieldDescriptor.DESC_float -> typeList.add(0, Float.class);
+                        }
+                    }
+                }
+                case FieldDescriptor.DESC_long, FieldDescriptor.DESC_double -> {
+                    if(descriptor.charAt(i) == '['){
+                        int dimensions = 1;
+                        while (descriptor.charAt(--i) == '['){dimensions++;}
+                        variableArrayList.add(0, new Variable(new ArrayReference(String.valueOf(descriptor.charAt(i)), dimensions)));
+                        typeList.add(0, Reference.class);
+                    } else {
+                        variableArrayList.add(0, pop());
+                        variableArrayList.add(0, pop());
+                        typeList.add(0, descriptor.charAt(i)==FieldDescriptor.DESC_long?Long.class:Double.class);
+                    }
+                }
+                case FieldDescriptor.DESC_reference -> {
+                    variableArrayList.add(0, pop());
+                    typeList.add(0, Reference.class);
+                }
+            }
+        }
+        LocalVariables localVariables = new LocalVariables(variableArrayList.size());
+        int pos = 0;
+        for(int j = 0;j < typeList.size();j++){
+            localVariables.set(pos, variableArrayList.get(pos), typeList.get(j));
+            pos++;
+            if (typeList.get(j) == Long.class || typeList.get(j) == Double.class){
+                localVariables.set(pos, variableArrayList.get(pos), null);
+                pos++;
+            }
+        }
+        return localVariables;
     }
 
     public void pushInt(int value) {

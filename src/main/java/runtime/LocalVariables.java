@@ -1,5 +1,6 @@
 package runtime;
 
+
 import runtime.reference.Reference;
 
 public class LocalVariables {
@@ -15,6 +16,16 @@ public class LocalVariables {
         if(variable == null) {
             variables[index] = null;
         } else variables[index] = new Variable(variable);
+    }
+
+    public void set(int index, Variable variable, Class<?> type){
+        if(variable == null) {
+            variables[index] = null;
+            types[index] = null;
+        } else {
+            variables[index] = new Variable(variable);
+            types[index] = type;
+        }
     }
 
     public void setInt(int index, int value) {

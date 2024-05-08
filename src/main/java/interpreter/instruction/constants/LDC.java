@@ -5,9 +5,9 @@ import runtime.JFrame;
 import runtime.JThread;
 import runtime.ProgramCounter;
 import runtime.classdata.Method;
-import runtime.classdata.constant.Constant;
-import runtime.classdata.constant.FloatConstant;
-import runtime.classdata.constant.IntegerConstant;
+import runtime.classdata.constant.*;
+import runtime.reference.ClassReference;
+import runtime.reference.StringReference;
 
 public class LDC implements Instruction {
     private final int index;
@@ -26,9 +26,11 @@ public class LDC implements Instruction {
             curFrame.getOperandStack().pushInt(((IntegerConstant) constant).getValue());
         } else if(constant instanceof FloatConstant){
             curFrame.getOperandStack().pushFloat(((FloatConstant) constant).getValue());
-        } else {
-            // TODO
-        }
+        } else if(constant instanceof StringConstant){
+            curFrame.getOperandStack().pushReference(new StringReference((StringConstant) constant));
+        } else if(constant instanceof ClassConstant){
+            curFrame.getOperandStack().pushReference(new ClassReference((ClassConstant) constant));
+        } // TODO: MethodType MethodHandle
     }
 
     @Override

@@ -115,22 +115,33 @@ public class JClass {
         return attributes[index];
     }
 
-    public Field getField(String name, String descriptor){
+    public Field getField(String name, String descriptor) throws ClassNotFoundException {
         for(Field field: fields){
             if(field.getName().equals(name) && field.getDescriptor().equals(descriptor)){
                 return field;
             }
         }
-        return null;
+        Field field = null;
+        for (ClassConstant constant: interfaces){
+            field = constant.getValue().getField(name, descriptor);
+            if(field != null) return field;
+        }
+        field = superClass.getValue().getField(name, descriptor);
+        return field;
     }
 
-    public Method getMethod(String name, String descriptor){
+    public Method getMethod(String name, String descriptor) throws ClassNotFoundException {
+        if(this.interface_()) throw new IncompatibleClassChangeError(getName());
         for(Method method: methods){
             if(method.getName().equals(name) && method.getDescriptor().equals(descriptor)){
                 return method;
             }
         }
-        return null;
+        Method method = null;
+        if(superClass != null){
+            method = superClass.getValue().getMethod(name, descriptor);
+        }
+        return method;
     }
 
     public boolean public_() {
